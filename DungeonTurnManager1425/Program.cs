@@ -4,8 +4,10 @@ using System.IO;
 
 public class Program
 {
+    static int Count;
 	public static void Main()
 	{
+        
 
         Hero Rorin = new Hero(); //default hero needs no updates
         Hero Aria = new Hero("Aria the Mage", "Mage", 100); //new one update name, class, and health
@@ -18,8 +20,13 @@ public class Program
         //use to push messages onto the history, and pop to undo
 
         //the game loop
-        for (int i = 0; i <10; i++) //run 10 times
+        while (true)//run 10 times
         { 
+            Count++;
+            if (Count >= 10)
+            {
+                break;
+            }
             //enqueue just as much as dequeue in the 10-time-loop
         HeroQueue.Enqueue(Rorin); 
         HeroQueue.Enqueue(Aria);
@@ -35,24 +42,24 @@ public class Program
         if (string.IsNullOrWhiteSpace(userInput) || userInput == "enter")
             {
                 //continue on with the game
-                return;
+                continue;
             }
             //continue means we only sanitize the word "undo" if NOT NULL is already confirmed
         userInput.ToLower().Trim();
         if (userInput == "undo")
             {
-                Console.WriteLine("Turn undone: Rorin's toppling turn, 50 damage");
+                Console.WriteLine("Turn undone: Rorin's toppling turn, 50 damage\n");
                 actionHistory.Pop();
             }
         else
             {
-                Console.WriteLine("Selection not understood. THE WAR RAGES ON!");
+                Console.WriteLine("Selection not understood. THE WAR RAGES ON!\n");
             }
 
         //Aria's turn (start of code upper bound limit) Aria fires multi-shot
         Console.WriteLine($"{HeroQueue.Dequeue().Name} fires multi-shot explosion spell! 30 damage!\n");// out 3 different 
         //push the action onto the stack
-        actionHistory.Push("Aria's fiery turn, 30 damage");
+        actionHistory.Push("Aria's fiery turn, 30 damage\n");
         Console.WriteLine("Would you like to undo turn? Type 'undo', or to continue press Enter");
         userInput = Console.ReadLine(); //probably turn this whole if block into
                                                // another class or even namespaced cs file
@@ -61,18 +68,18 @@ public class Program
         if (string.IsNullOrWhiteSpace(userInput) || userInput == "enter")
             {
                 //continue on with the game
-                return;
+                continue;
             }
             //continue means we only sanitize the word "undo" if NOT NULL is already confirmed
         userInput.ToLower().Trim();
         if (userInput == "undo")
             {
-                Console.WriteLine("Turn undone: Arias fiery turn, 30 damage");
+                Console.WriteLine("Turn undone: Arias fiery turn, 30 damage\n");
                 actionHistory.Pop();
             }
         else
             {
-                Console.WriteLine("Selection not understood. THE WAR RAGES ON!");
+                Console.WriteLine("Selection not understood. THE WAR RAGES ON!\n");
             }
 
         // lower bound Aria
@@ -90,7 +97,7 @@ public class Program
         if (string.IsNullOrWhiteSpace(userInput) || userInput == "enter")
             {
                 //continue on with the game
-                return;
+                continue;
             }
             //continue means we only sanitize the word "undo" if NOT NULL is already confirmed
         userInput.ToLower().Trim();
@@ -102,7 +109,7 @@ public class Program
             }
         else
             {
-                Console.WriteLine("Selection not understood. THE WAR RAGES ON!");
+                Console.WriteLine("Selection not understood. THE WAR RAGES ON!\n");
             }
 
         // lower bound Gonzo
@@ -153,7 +160,7 @@ public class Program
         if (userInput == "undo")
             {
                 actionHistory.Pop();
-            }Console.WriteLine("Selection not understood. THE WAR RAGES ON!");
+            }Console.WriteLine("Selection not understood. THE WAR RAGES ON!\n");
             
 
 
