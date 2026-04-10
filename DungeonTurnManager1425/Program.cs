@@ -4,7 +4,7 @@ using System.IO;
 
 public class Program
 {
-    static int Count;
+    static int loopCount;
 	public static void Main()
 	{
         
@@ -22,8 +22,8 @@ public class Program
         //the game loop
         while (true)//run 10 times
         { 
-            Count++;
-            if (Count >= 10)
+            loopCount++;
+            if (loopCount >= 10)
             {
                 break;
             }
@@ -47,9 +47,11 @@ public class Program
             //continue means we only sanitize the word "undo" if NOT NULL is already confirmed
         userInput.ToLower().Trim();
         if (userInput == "undo")
-            {
+            { 
+                if (actionHistory.Count > 0){
                 Console.WriteLine("Turn undone: Rorin's toppling turn, 50 damage\n");
                 actionHistory.Pop();
+                }
             }
         else
             {
@@ -73,9 +75,11 @@ public class Program
             //continue means we only sanitize the word "undo" if NOT NULL is already confirmed
         userInput.ToLower().Trim();
         if (userInput == "undo")
-            {
+            { 
+                if (actionHistory.Count > 0){
                 Console.WriteLine("Turn undone: Arias fiery turn, 30 damage\n");
                 actionHistory.Pop();
+                }
             }
         else
             {
@@ -100,14 +104,16 @@ public class Program
                 continue;
             }
             //continue means we only sanitize the word "undo" if NOT NULL is already confirmed
-        userInput.ToLower().Trim();
-        if (userInput == "undo")
-            {
-                
+            userInput.ToLower().Trim();
+            if (userInput == "undo")
+            { 
+                if (actionHistory.Count > 0){
                 Console.WriteLine("Turn undone: No more arrows, 30 damage");
                 actionHistory.Pop();
+                }
             }
-        else
+
+            else
             {
                 Console.WriteLine("Selection not understood. THE WAR RAGES ON!\n");
             }
