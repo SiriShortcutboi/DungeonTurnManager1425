@@ -7,8 +7,6 @@ public class Program
     static int loopCount;
 	public static void Main()
 	{
-        
-
         Hero Rorin = new Hero(); //default hero needs no updates
         Hero Aria = new Hero("Aria the Mage", "Mage", 100); //new one update name, class, and health
         Hero Gonzo = new Hero("Gonzo the Archer", "Archer", 150); //new one
@@ -34,57 +32,13 @@ public class Program
 
         Console.WriteLine($"{HeroQueue.Dequeue().Name} topples a giant! 50 damage!\n");//same command prints 
         actionHistory.Push("Rorin's toppling turn, 50 damage");
-        Console.WriteLine("Would you like to undo turn? Type 'undo', or to continue press Enter");
-        string userInput = Console.ReadLine(); //probably turn this whole if block into
-                                               // another class or even namespaced cs file
-                                               // starting with writeline and readline
-        //userInput = userInput.ToLower().Trim();
-        if (string.IsNullOrWhiteSpace(userInput) || userInput == "enter")
-            {
-                //continue on with the game
-                continue;
-            }
-            //continue means we only sanitize the word "undo" if NOT NULL is already confirmed
-        userInput.ToLower().Trim();
-        if (userInput == "undo")
-            { 
-                if (actionHistory.Count > 0){
-                Console.WriteLine("Turn undone: Rorin's toppling turn, 50 damage\n");
-                actionHistory.Pop();
-                }
-            }
-        else
-            {
-                Console.WriteLine("Selection not understood. THE WAR RAGES ON!\n");
-            }
+        BigUndoButton(actionHistory, "Turn undone: Rorin's toppling turn, 50 damage\n");
 
         //Aria's turn (start of code upper bound limit) Aria fires multi-shot
         Console.WriteLine($"{HeroQueue.Dequeue().Name} fires multi-shot explosion spell! 30 damage!\n");// out 3 different 
         //push the action onto the stack
         actionHistory.Push("Aria's fiery turn, 30 damage\n");
-        Console.WriteLine("Would you like to undo turn? Type 'undo', or to continue press Enter");
-        userInput = Console.ReadLine(); //probably turn this whole if block into
-                                               // another class or even namespaced cs file
-                                               // starting with writeline and readline
-        //userInput = userInput.ToLower().Trim();
-        if (string.IsNullOrWhiteSpace(userInput) || userInput == "enter")
-            {
-                //continue on with the game
-                continue;
-            }
-            //continue means we only sanitize the word "undo" if NOT NULL is already confirmed
-        userInput.ToLower().Trim();
-        if (userInput == "undo")
-            { 
-                if (actionHistory.Count > 0){
-                Console.WriteLine("Turn undone: Arias fiery turn, 30 damage\n");
-                actionHistory.Pop();
-                }
-            }
-        else
-            {
-                Console.WriteLine("Selection not understood. THE WAR RAGES ON!\n");
-            }
+        BigUndoButton(actionHistory, "Turn undone: Arias fiery turn, 30 damage\n");
 
         // lower bound Aria
 
@@ -93,30 +47,7 @@ public class Program
         + " volley of arrows! 25 damage!\n");//             ^
                         //Dequeue print out the (^name property) of whatever Hero sits in Dequeue()
         actionHistory.Push("Gonzo's Bullseye turn, 25 damage");
-        Console.WriteLine("Would you like to undo turn? Type 'undo', or to continue press Enter");
-        userInput = Console.ReadLine(); //probably turn this whole if block into
-                                               // another class or even namespaced cs file
-                                               // starting with writeline and readline
-        //userInput = userInput.ToLower().Trim();
-        if (string.IsNullOrWhiteSpace(userInput) || userInput == "enter")
-            {
-                //continue on with the game
-                continue;
-            }
-            //continue means we only sanitize the word "undo" if NOT NULL is already confirmed
-            userInput.ToLower().Trim();
-            if (userInput == "undo")
-            { 
-                if (actionHistory.Count > 0){
-                Console.WriteLine("Turn undone: No more arrows, 30 damage");
-                actionHistory.Pop();
-                }
-            }
-
-            else
-            {
-                Console.WriteLine("Selection not understood. THE WAR RAGES ON!\n");
-            }
+        BigUndoButton(actionHistory, "Turn undone: No more arrows, 30 damage");
 
         // lower bound Gonzo
         
@@ -124,6 +55,31 @@ public class Program
         }//end loop
         Console.WriteLine("All turns completed");
 
+    }
+
+    public static void BigUndoButton(Stack<string> actionHistory, string undoMessage)
+    {
+        Console.WriteLine("Would you like to undo turn? Type 'undo', or to continue press Enter");
+        string userInput = Console.ReadLine() ?? string.Empty;
+        userInput = userInput.ToLower().Trim();
+
+        // Enter should continue to the next hero's turn, not skip the whole round.
+        if (string.IsNullOrWhiteSpace(userInput) || userInput == "enter")
+        {
+            return;
+        }
+
+        if (userInput == "undo")
+        {
+            if (actionHistory.Count > 0)
+            {
+                Console.WriteLine(undoMessage);
+                actionHistory.Pop();
+            }
+            return;
+        }
+
+        Console.WriteLine("Selection not understood. THE WAR RAGES ON!\n");
     }
 
     public class Hero
